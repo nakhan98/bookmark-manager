@@ -4,9 +4,6 @@ docker_build:
 docker_run:
 	podman run --rm -it --name adm -v $(PWD):/app -p 3000:3000 aider-bookmark-manager
 
-docker_test:
-	podman run --rm -it --name test-adm -v $(PWD):/app aider-bookmark-manager npm run test
-
 docker_install:
 	podman run --rm -it --name install-adm -v $(PWD):/app aider-bookmark-manager npm install
 
