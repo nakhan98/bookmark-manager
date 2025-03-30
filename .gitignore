@@ -40,3 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .aider*
+
+# Don't commit data
+data/
+
+# Vim
+*~
+.*.sw*
