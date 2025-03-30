@@ -111,7 +111,6 @@ export default function Home() {
           >
             <h3>{b.title}</h3>
             <p>{b.url}</p>
-            <p>{b.note}</p>
             <div>
               <button onClick={() => handleEdit(b)} style={{ marginRight: "0.5rem" }}>
                 Edit
