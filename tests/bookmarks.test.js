@@ -1,6 +1,6 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { readBookmarks, writeBookmarks } from '../lib/bookmarks';
+const fs = require('fs/promises');
+const path = require('path');
+const { readBookmarks, writeBookmarks } = require('../lib/bookmarks');
 
 const tempFile = path.join(__dirname, 'temp_bookmarks.json');
 
