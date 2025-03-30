@@ -1,20 +1,4 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const BOOKMARKS_FILE = path.join(process.cwd(), 'data', 'bookmarks.json');
-
-async function readBookmarks() {
-  try {
-    const data = await fs.readFile(BOOKMARKS_FILE, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-}
-
-async function writeBookmarks(bookmarks) {
-  await fs.writeFile(BOOKMARKS_FILE, JSON.stringify(bookmarks, null, 2));
-}
+import { readBookmarks, writeBookmarks } from '../../lib/bookmarks';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
