@@ -29,11 +29,15 @@ export default function Home() {
       setError("Title and URL are required");
       return;
     }
+    let url = formData.url.trim();
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      url = "http://" + url;
+    }
     const method = formData.id ? "PUT" : "POST";
     const res = await fetch("/api/bookmarks", {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ ...formData, url }),
     });
     const result = await res.json();
     if (!res.ok) {
