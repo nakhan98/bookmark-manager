@@ -6,3 +6,6 @@ docker_run:
 
 docker_test:
 	podman run --rm -it --name test-adm -v $(PWD):/app aider-bookmark-manager npm run test
+
+docker_test:
+	podman run --rm -it --name test-adm -v $(PWD):/app aider-bookmark-manager npm run test
