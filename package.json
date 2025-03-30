@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --experimental-vm-modules"
+    "test": "jest"
   },
   "dependencies": {
     "react": "^19.0.0",
