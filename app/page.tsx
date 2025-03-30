@@ -88,7 +88,7 @@ export default function Home() {
           style={{ width: "100%", padding: "0.5rem", marginBottom: "0.5rem" }}
         />
         <input
-          type="url"
+          type="text"
           name="url"
           placeholder="URL"
           value={formData.url}
