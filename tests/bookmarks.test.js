@@ -11,6 +11,35 @@ afterEach(async () => {
     // ignore if file doesn't exist
   }
 });
+test('editing bookmark updates the bookmark correctly', async () => {
+  const initialBookmarks = [
+    { id: "1", title: "Original", url: "http://original.com", note: "note" },
+    { id: "2", title: "Second", url: "http://second.com", note: "second note" }
+  ];
+  await writeBookmarks(initialBookmarks, tempFile);
+  const bookmarks = await readBookmarks(tempFile);
+  const editedBookmarks = bookmarks.map(b =>
+    b.id === "1" ? { ...b, title: "Edited", url: "http://edited.com" } : b
+  );
+  await writeBookmarks(editedBookmarks, tempFile);
+  const readAfterEdit = await readBookmarks(tempFile);
+  expect(readAfterEdit.find(b => b.id === "1").title).toEqual("Edited");
+  expect(readAfterEdit.find(b => b.id === "1").url).toEqual("http://edited.com");
+});
+
+test('deleting bookmark removes the bookmark correctly', async () => {
+  const initialBookmarks = [
+    { id: "1", title: "First", url: "http://first.com", note: "" },
+    { id: "2", title: "Second", url: "http://second.com", note: "" }
+  ];
+  await writeBookmarks(initialBookmarks, tempFile);
+  const bookmarks = await readBookmarks(tempFile);
+  const afterDeletion = bookmarks.filter(b => b.id !== "1");
+  await writeBookmarks(afterDeletion, tempFile);
+  const readAfterDeletion = await readBookmarks(tempFile);
+  expect(readAfterDeletion.some(b => b.id === "1")).toBeFalsy();
+  expect(readAfterDeletion.length).toEqual(1);
+});
 
 test('readBookmarks returns empty array if file does not exist', async () => {
   const bookmarks = await readBookmarks(tempFile);
