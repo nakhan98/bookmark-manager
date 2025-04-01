@@ -81,3 +81,5 @@ npm test
 ## License
 
 MIT
+
+Note: this project was created using the help of aider and claude code (to evaluate them).
