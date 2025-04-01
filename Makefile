@@ -9,3 +9,6 @@ docker_install:
 
 docker_test:
 	podman run --rm --name test-adm -v $(PWD):/app aider-bookmark-manager npm run test
+
+dc_run:
+	podman-compose up -d --force-recreate
