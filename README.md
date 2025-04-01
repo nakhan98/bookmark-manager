@@ -82,4 +82,4 @@ npm test
 
 MIT
 
-Note: this project was created using the help of [Aider](https://aider.ai) and [Claude Code](https://claude.ai) (to evaluate them).
+Note: this project was created using the help of [Aider](https://aider.ai) and [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview) (to evaluate them).
