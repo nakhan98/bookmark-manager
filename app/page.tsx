@@ -36,8 +36,8 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (!formData.title || !formData.url) {
-      setError("Title and URL are required");
+    if (!formData.url) {
+      setError("URL is required");
       return;
     }
     
@@ -152,13 +152,13 @@ export default function Home() {
           <h2 className="text-xl font-bold mb-4">{formData.id ? "Edit Bookmark" : "Add New Bookmark"}</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="title" className="block text-sm font-medium mb-1">Title</label>
+              <label htmlFor="title" className="block text-sm font-medium mb-1">Title (optional)</label>
               <input
                 type="text"
                 id="title"
                 name="title"
                 className="input"
-                placeholder="Website Title"
+                placeholder="Website Title (auto-generated if empty)"
                 value={formData.title}
                 onChange={handleInputChange}
               />

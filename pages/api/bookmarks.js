@@ -1,4 +1,4 @@
-import { readBookmarks, writeBookmarks } from '../../lib/bookmarks';
+import { readBookmarks, writeBookmarks, fetchPageTitle } from '../../lib/bookmarks';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -7,20 +7,41 @@ export default async function handler(req, res) {
     return;
   } else if (req.method === 'POST') {
     const { title, url, note } = req.body;
-    if (!title || !url) {
-      res.status(400).json({ error: 'Title and URL required' });
+    if (!url) {
+      res.status(400).json({ error: 'URL required' });
       return;
     }
+
+    // Format URL if needed
+    let formattedUrl = url;
+    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      formattedUrl = 'https://' + formattedUrl;
+    }
+
+    // Auto-fetch title if not provided
+    let finalTitle = title;
+    if (!finalTitle) {
+      finalTitle = await fetchPageTitle(formattedUrl);
+      if (!finalTitle) {
+        // Use domain name as fallback title
+        try {
+          finalTitle = new URL(formattedUrl).hostname;
+        } catch {
+          finalTitle = formattedUrl;
+        }
+      }
+    }
+
     const bookmarks = await readBookmarks();
     // Check for duplicate URL
-    if (bookmarks.find(b => b.url === url)) {
+    if (bookmarks.find(b => b.url === formattedUrl)) {
       res.status(400).json({ error: 'Bookmark with the same URL already exists' });
       return;
     }
     const newBookmark = {
       id: Date.now().toString(),
-      title,
-      url,
+      title: finalTitle,
+      url: formattedUrl,
       note: note || '',
       creationDate: new Date().toISOString(),
       modifiedDate: new Date().toISOString()
@@ -31,9 +52,29 @@ export default async function handler(req, res) {
     return;
   } else if (req.method === 'PUT') {
     const { id, title, url, note } = req.body;
-    if (!id || !title || !url) {
-      res.status(400).json({ error: 'ID, title and URL required' });
+    if (!id || !url) {
+      res.status(400).json({ error: 'ID and URL required' });
       return;
+    }
+    
+    // Format URL if needed
+    let formattedUrl = url;
+    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      formattedUrl = 'https://' + formattedUrl;
+    }
+
+    // Auto-fetch title if not provided
+    let finalTitle = title;
+    if (!finalTitle) {
+      finalTitle = await fetchPageTitle(formattedUrl);
+      if (!finalTitle) {
+        // Use domain name as fallback title
+        try {
+          finalTitle = new URL(formattedUrl).hostname;
+        } catch {
+          finalTitle = formattedUrl;
+        }
+      }
     }
     const bookmarks = await readBookmarks();
     const index = bookmarks.findIndex(b => b.id === id);
@@ -42,14 +83,14 @@ export default async function handler(req, res) {
       return;
     }
     // Check for duplicate URL when changing URL
-    if (bookmarks.find(b => b.url === url && b.id !== id)) {
+    if (bookmarks.find(b => b.url === formattedUrl && b.id !== id)) {
       res.status(400).json({ error: 'Another bookmark with the same URL already exists' });
       return;
     }
     bookmarks[index] = {
       ...bookmarks[index],
-      title,
-      url,
+      title: finalTitle,
+      url: formattedUrl,
       note: note || '',
       modifiedDate: new Date().toISOString()
     };
