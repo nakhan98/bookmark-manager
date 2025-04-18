@@ -1,4 +1,5 @@
 CONTAINER_RUNTIME ?= podman
+HTPASSWD_USER ?= admin
 
 docker_build:
 	$(CONTAINER_RUNTIME) build -t aider-bookmark-manager .
@@ -16,4 +17,4 @@ dc_run:
 	$(CONTAINER_RUNTIME) compose up -d --force-recreate
 
 docker_htpasswd:
-	$(CONTAINER_RUNTIME) run --rm -it -v $(PWD)/nginx/auth:/auth httpd htpasswd -c /auth/.htpasswd admin
+	$(CONTAINER_RUNTIME) run --rm -it -v $(PWD)/nginx/auth:/auth httpd htpasswd -c /auth/.htpasswd $(HTPASSWD_USER)
