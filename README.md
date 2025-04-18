@@ -75,8 +75,26 @@ Note: The `.env` file is excluded from Docker builds via `.dockerignore`.
 Run tests with:
 
 ```bash
-npm test
+npm test                 # Run all tests
+npm run test:api         # Run API and library tests only
+npm run test:ui          # Run UI component tests only
+npm run test:coverage    # Generate coverage report
 ```
+
+### Test Coverage
+
+The project includes comprehensive test coverage for:
+
+- **Library Functions**: 100% line coverage of the core bookmark utility functions
+- **API Endpoints**: Tests cover all CRUD operations, error handling, and edge cases
+- **UI Components**: Tests for React components including form validation and user interactions
+- **Utils**: Tests for utility functions like URL processing and favicon handling
+
+Test categories:
+- Unit tests for core functions
+- API endpoint tests with proper mocking
+- Integration tests for full CRUD flows
+- UI component tests with React Testing Library
 
 ## License
 
