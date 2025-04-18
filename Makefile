@@ -14,3 +14,6 @@ docker_test:
 
 dc_run:
 	$(CONTAINER_RUNTIME) compose up -d --force-recreate
+
+docker_htpasswd:
+	$(CONTAINER_RUNTIME) run --rm -it -v $(PWD)/nginx/auth:/auth httpd htpasswd -c /auth/.htpasswd
