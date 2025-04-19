@@ -53,17 +53,6 @@ make docker_install
 make docker_test
 ```
 
-## Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
-
-```
-# Example environment variables
-PORT=3000
-NODE_ENV=development
-```
-
-Note: The `.env` file is excluded from Docker builds via `.dockerignore`.
 
 ## Testing
 
