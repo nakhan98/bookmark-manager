@@ -46,9 +46,7 @@ describe('API Endpoints', () => {
       const mockExistingBookmarks = [];
       readBookmarks.mockResolvedValue(mockExistingBookmarks);
       
-      // Mock Date.now for predictable ID
-      const originalDateNow = Date.now;
-      Date.now = jest.fn(() => 1234567890);
+      // We're not mocking random ID generation as our implementation changed
 
       // Mock toISOString for predictable dates
       const mockDate = new Date();
@@ -68,21 +66,26 @@ describe('API Endpoints', () => {
       await handler(req, res);
 
       // Restore Date functions
-      Date.now = originalDateNow;
+      jest.restoreAllMocks();
       global.Date = Date;
 
-      const expectedBookmark = {
-        id: '1234567890',
+      // Extract the bookmark that was saved
+      const savedBookmark = writeBookmarks.mock.calls[0][0][0];
+      
+      // Check that all properties except ID match our expectations
+      expect(savedBookmark).toMatchObject({
         title: 'Test Title',
         url: 'https://test.com',
         note: 'Test note',
         creationDate: mockISOString,
         modifiedDate: mockISOString
-      };
-
-      expect(writeBookmarks).toHaveBeenCalledWith([expectedBookmark]);
+      });
+      
+      // Verify that ID is a non-empty string
+      expect(typeof savedBookmark.id).toBe('string');
+      expect(savedBookmark.id.length).toBeGreaterThan(0);
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(expectedBookmark);
+      expect(res.json).toHaveBeenCalledWith(savedBookmark);
     });
 
     test('adds https:// prefix to URLs when missing', async () => {

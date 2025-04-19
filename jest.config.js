@@ -1,5 +1,5 @@
 module.exports = {
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom', // Changed from 'node' to 'jsdom' for UI tests
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
@@ -30,5 +30,8 @@ module.exports = {
       functions: 80,
       lines: 80
     }
-  }
+  },
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 };
