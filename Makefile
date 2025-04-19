@@ -12,9 +12,3 @@ docker_install:
 
 docker_test:
 	$(CONTAINER_RUNTIME) run --rm --name test-adm -v $(PWD):/app aider-bookmark-manager npm run test
-
-dc_run:
-	$(CONTAINER_RUNTIME) compose up -d --force-recreate
-
-docker_htpasswd:
-	$(CONTAINER_RUNTIME) run --rm -it -v $(PWD)/nginx/auth:/auth httpd htpasswd /auth/.htpasswd $(HTPASSWD_USER)

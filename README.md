@@ -14,8 +14,6 @@ A simple web application for managing bookmarks built with Next.js.
 - `/data` - Storage directory for bookmark data (gitignored)
 - `/lib` - Core utility functions for bookmark handling
 - `/pages/api` - API routes for bookmark operations
-- `/nginx` - Nginx configuration for reverse proxy
-  - `/certs` - Directory for SSL certificates (contents gitignored)
 
 ## Development
 
@@ -53,9 +51,6 @@ make docker_install
 
 # Run tests in Docker
 make docker_test
-
-# Run with docker-compose (force recreate containers)
-make dc_run
 ```
 
 ## Environment Variables
