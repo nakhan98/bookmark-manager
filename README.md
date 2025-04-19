@@ -95,4 +95,9 @@ Test categories:
 
 MIT
 
-Note: this project was created using the help of [Aider](https://aider.ai) and [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview) (to evaluate them).
+## Development Tools
+
+This project was developed with assistance from:
+
+- [Aider](https://aider.ai) using OpenAI's [o3-mini model](https://platform.openai.com/docs/models/o3-mini)
+- [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview)
