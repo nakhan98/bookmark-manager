@@ -15,16 +15,7 @@ A comprehensive multi-user personal organiser web application built with Next.js
 
 ## Project Structure
 
-- `/app` - Next.js app directory with frontend components
-- `/data` - Storage directory for user data (gitignored)
-  - `/data/auth.json` - User authentication data
-  - `/data/bookmarks/{userId}.json` - User bookmarks
-  - `/data/notes/{userId}/{noteId}.json` - User notes
-  - `/data/calendar/{userId}.json` - User calendar events
-  - `/data/photos/{userId}/{albumId}/` - User photo storage
-  - `/data/files/{userId}/` - User file storage
-- `/lib` - Core utility functions for application features
-- `/pages/api` - RESTful API routes for all application features
+TODO
 
 ## Development
 
