@@ -326,6 +326,11 @@ The application will expose a comprehensive REST API to support both web and fut
 - Unit tests for core functionality
 - Integration tests for API endpoints
 - End-to-end tests for critical user flows
+- REQUIREMENT: All new features MUST be accompanied by appropriate tests
+- API endpoints require tests for success and failure scenarios
+- UI components need rendering and user interaction tests
+- Minimum test coverage requirements: 80% statements/functions/lines, 50% branches
+- Both developers and AI agents should write tests when implementing features
 
 ## Design Guidelines
 - Clean, minimalist interface

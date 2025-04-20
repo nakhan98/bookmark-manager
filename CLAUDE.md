@@ -39,6 +39,10 @@ npx jest -t "test name pattern"      # Run tests matching pattern
 - Jest for testing, tests in `/tests` with .test.js extension
 - Coverage requirements: 80% statements/functions/lines, 50% branches
 - Mock external dependencies in tests
+- IMPORTANT: All new features MUST include appropriate tests
+- Tests should cover both happy path and error cases
+- UI components should have basic rendering and interaction tests
+- API endpoints must have comprehensive test coverage
 
 ## API Standards
 - RESTful API design with consistent patterns across all endpoints
