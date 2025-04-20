@@ -1,19 +1,30 @@
-# Bookmark Manager
+# Personal Organiser Application
 
-A simple web application for managing bookmarks built with Next.js.
+A comprehensive multi-user personal organiser web application built with Next.js, evolving from a simple bookmark manager.
 
 ## Features
 
-- Store and manage website bookmarks
-- RESTful API for CRUD operations
-- Persistent storage using JSON files
+- Multi-user authentication system
+- Bookmark management with folders, tags, and search functionality
+- Notes with rich text/markdown support
+- Calendar with event scheduling and notifications
+- Photo gallery with albums and basic editing
+- File storage system
+- Complete RESTful API for all features
+- Responsive design for both mobile and desktop experiences
 
 ## Project Structure
 
 - `/app` - Next.js app directory with frontend components
-- `/data` - Storage directory for bookmark data (gitignored)
-- `/lib` - Core utility functions for bookmark handling
-- `/pages/api` - API routes for bookmark operations
+- `/data` - Storage directory for user data (gitignored)
+  - `/data/auth.json` - User authentication data
+  - `/data/bookmarks/{userId}.json` - User bookmarks
+  - `/data/notes/{userId}/{noteId}.json` - User notes
+  - `/data/calendar/{userId}.json` - User calendar events
+  - `/data/photos/{userId}/{albumId}/` - User photo storage
+  - `/data/files/{userId}/` - User file storage
+- `/lib` - Core utility functions for application features
+- `/pages/api` - RESTful API routes for all application features
 
 ## Development
 

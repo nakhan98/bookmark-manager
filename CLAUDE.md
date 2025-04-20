@@ -4,6 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Note: Claude Code is being run inside a Podman container.
 
+## Project Overview
+This is a personal organiser application that includes multiple features:
+- Authentication system with secure user management
+- Bookmarks with organization and search capabilities
+- Notes with rich text editor and markdown support
+- Calendar with event scheduling and notifications
+- Photo gallery with albums and basic editing
+- File storage system with folder structure
+
 ## Build, Lint, and Test Commands
 ```bash
 npm run dev          # Start development server with turbopack
@@ -30,3 +39,22 @@ npx jest -t "test name pattern"      # Run tests matching pattern
 - Jest for testing, tests in `/tests` with .test.js extension
 - Coverage requirements: 80% statements/functions/lines, 50% branches
 - Mock external dependencies in tests
+
+## API Standards
+- RESTful API design with consistent patterns across all endpoints
+- JWT authentication for all protected routes
+- Standard error response format: `{ error: 'Message' }`
+- Pagination for list endpoints that may return large result sets
+- API versioning strategy to be implemented when needed
+
+## Security Guidelines
+- All user authentication must use secure password hashing
+- All routes must validate user permissions
+- Input validation and sanitization required for all user inputs
+- All network traffic requires HTTPS
+- Implement rate limiting on authentication endpoints
+- Sensitive operations should require re-authentication
+
+## Documentation Maintenance
+- Keep `spec.md`, `CLAUDE.md`, and `README.md` in sync when implementing new features
+- Update documentation as part of feature implementation, not as an afterthought
