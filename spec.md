@@ -269,10 +269,10 @@ The application will expose a comprehensive REST API to support both web and fut
 ## Implementation Phases
 
 ### Phase 1: Foundation
-- Multi-user authentication system (implemented: register, login, logout, and reset-password endpoints are complete and tested)
+- Multi-user authentication system (implemented: all authentication endpoints are complete and tested)
 - Basic UI navigation framework (pending)
-- Core REST API implementation with authentication (auth endpoints are fully functioning; additional endpoints are pending)
-- Migration of bookmarks feature to multi-user (implemented: minimal GET and POST endpoints are available at /api/multi/bookmarks)
+- Core REST API implementation with authentication (auth endpoints are fully functioning; additional endpoints for notes, calendar, etc. are pending)
+- Migration of bookmarks feature to multi-user (implemented: GET/POST endpoints are fully tested and functional)
 
 ### Phase 2: Core Features
 - Notes implementation
