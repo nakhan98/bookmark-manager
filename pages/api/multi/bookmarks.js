@@ -60,8 +60,19 @@ export default async function handler(req, res) {
     await saveUserBookmarks(username, bookmarks);
     res.status(201).json(newBookmark);
     return;
+  } else if (req.method === 'DELETE') {
+    const { id } = req.body;
+    if (!id) {
+      res.status(400).json({ error: 'bookmark id required' });
+      return;
+    }
+    let bookmarks = await getUserBookmarks(username);
+    const newBookmarks = bookmarks.filter(bookmark => bookmark.id !== id);
+    await saveUserBookmarks(username, newBookmarks);
+    res.status(200).json({ message: 'Bookmark deleted successfully' });
+    return;
   } else {
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
