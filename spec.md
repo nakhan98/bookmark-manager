@@ -378,3 +378,12 @@ These items are not critical for initial development but should be considered as
 - All developers and AI agents should update these documents when implementing new features or making significant changes
 - Documentation updates should be treated as part of the implementation process, not as an afterthought
 - When completing a feature or making architectural changes, update the corresponding sections in all relevant documentation files
+
+## Version Control Guidelines
+- Commit changes regularly with descriptive, meaningful commit messages
+- Follow conventional commit message format: `type(scope): message` (e.g., `feat(auth): add JWT token authentication`)
+- Common types: feat, fix, docs, style, refactor, test, chore
+- Keep commits focused on a single task or fix
+- Include references to relevant issues/tickets in commit messages when applicable
+- Before committing, ensure the application builds and passes tests
+- This applies to both human developers and AI agents

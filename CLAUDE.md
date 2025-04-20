@@ -58,3 +58,13 @@ npx jest -t "test name pattern"      # Run tests matching pattern
 ## Documentation Maintenance
 - Keep `spec.md`, `CLAUDE.md`, and `README.md` in sync when implementing new features
 - Update documentation as part of feature implementation, not as an afterthought
+
+## Version Control Guidelines
+- Commit changes regularly with descriptive, meaningful commit messages
+- Follow conventional commit format: `type(scope): message` 
+  - Example: `feat(auth): add JWT token authentication`
+  - Common types: feat, fix, docs, style, refactor, test, chore
+- Keep commits focused on a single logical change
+- Include issue/ticket references when applicable
+- Always ensure the application builds and passes tests before committing
+- This applies to both human developers and AI agents
