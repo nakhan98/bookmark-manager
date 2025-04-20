@@ -306,7 +306,7 @@ The application will expose a comprehensive REST API to support both web and fut
 
 ### Security
 - Application will be behind an nginx reverse proxy that handles SSL termination
-- All traffic to and from the web application will be over HTTPS
+- All traffic to and from the web application will be over HTTPS when deployed to production (this will be handled separately and is not a concern for application development)
 - Proper authentication and authorization checks on all routes
 - Input validation and sanitization
 - Protection against common vulnerabilities (XSS, CSRF, etc.)

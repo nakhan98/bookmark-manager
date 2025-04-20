@@ -51,7 +51,7 @@ npx jest -t "test name pattern"      # Run tests matching pattern
 - All user authentication must use secure password hashing
 - All routes must validate user permissions
 - Input validation and sanitization required for all user inputs
-- All network traffic requires HTTPS
+- HTTPS will be managed separately when deployed to production (not a concern for application development)
 - Implement rate limiting on authentication endpoints
 - Sensitive operations should require re-authentication
 
