@@ -5,7 +5,7 @@ docker_build:
 	$(CONTAINER_RUNTIME) build -t aider-bookmark-manager .
 
 docker_run:
-	$(CONTAINER_RUNTIME) run --rm --name adm -v $(PWD):/app -p 3000:3000 aider-bookmark-manager
+	$(CONTAINER_RUNTIME) run -d --rm --name adm -v $(PWD):/app -p 3000:3000 aider-bookmark-manager
 
 docker_install:
 	$(CONTAINER_RUNTIME) run --rm --name install-adm -v $(PWD):/app aider-bookmark-manager npm install
