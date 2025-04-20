@@ -21,3 +21,7 @@ curl -s -X POST http://localhost:3000/api/multi/bookmarks \
   -H "Authorization: Bearer $BOOKMARKS_TOKEN" \
   -d '{"url": "https://example.com", "title": "Example Bookmark", "description": "Test bookmark"}'
 echo -e "\n"
+
+echo "Testing GET bookmarks endpoint after POST..."
+curl -s -X GET http://localhost:3000/api/multi/bookmarks -H "Authorization: Bearer $BOOKMARKS_TOKEN"
+echo -e "\n"
