@@ -5,6 +5,7 @@ docker_build:
 	$(CONTAINER_RUNTIME) build -t aider-bookmark-manager .
 
 docker_run:
+	-$(CONTAINER_RUNTIME) rm -f adm || true
 	$(CONTAINER_RUNTIME) run -d --rm --name adm -v $(PWD):/app -p 3000:3000 aider-bookmark-manager
 
 docker_install:
