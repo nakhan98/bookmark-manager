@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -z "$BOOKMARKS_TOKEN" ]; then
+  echo "Please export BOOKMARKS_TOKEN with a valid JWT token and re-run."
+  exit 1
+fi
+
+echo "Testing GET bookmarks endpoint..."
+curl -s -X GET http://localhost:3000/api/multi/bookmarks -H "Authorization: Bearer $BOOKMARKS_TOKEN"
+echo -e "\n"
+
+echo "Testing POST bookmarks endpoint..."
+curl -s -X POST http://localhost:3000/api/multi/bookmarks \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $BOOKMARKS_TOKEN" \
+  -d '{"url": "https://example.com", "title": "Example Bookmark", "description": "Test bookmark"}'
+echo -e "\n"
