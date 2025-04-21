@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function BookmarksClient() {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState<boolean | null>(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
@@ -16,17 +16,24 @@ export default function BookmarksClient() {
   useEffect(() => {
     const token = localStorage.getItem("BOOKMARKS_TOKEN");
     if (!token) {
-      router.push("/login");
+      router.replace("/login");
       setIsAuth(false);
+    } else {
+      setIsAuth(true);
     }
   }, [router]);
+  
+  // Don't render anything until we've checked authentication
+  if (isAuth !== true) {
+    return null;
+  }
 
   const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("BOOKMARKS_TOKEN");
       if (!token) {
-         window.location.href = "/login";
+         router.replace("/login");
          return;
       }
       const res = await fetch("/api/multi/bookmarks", {
@@ -43,8 +50,10 @@ export default function BookmarksClient() {
   };
 
   useEffect(() => {
-    fetchBookmarks();
-  }, []);
+    if (isAuth === true) {
+      fetchBookmarks();
+    }
+  }, [isAuth]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
