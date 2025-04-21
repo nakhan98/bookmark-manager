@@ -15,8 +15,7 @@ export default function BookmarksPage() {
     try {
       const token = localStorage.getItem("BOOKMARKS_TOKEN");
       if (!token) {
-         setError("Not authenticated. Please log in.");
-         setIsLoading(false);
+         window.location.href = "/login";
          return;
       }
       const res = await fetch("/api/multi/bookmarks", {
