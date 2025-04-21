@@ -13,23 +13,7 @@ export default function BookmarksClient() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  
-  // Check authentication immediately on component mount
-  useEffect(() => {
-    const token = localStorage.getItem("BOOKMARKS_TOKEN");
-    if (!token) {
-      // Use window.location for immediate redirect without React rendering
-      window.location.href = "/login";
-      return;
-    }
-    setIsAuth(true);
-    fetchBookmarks();
-  }, []);
-  
-  // Don't render anything until we've checked authentication
-  if (isAuth !== true) {
-    return null;
-  }
+  const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("BOOKMARKS_TOKEN");
@@ -49,6 +33,23 @@ export default function BookmarksClient() {
       setIsLoading(false);
     }
   };
+  
+  // Check authentication immediately on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("BOOKMARKS_TOKEN");
+    if (!token) {
+      // Use window.location for immediate redirect without React rendering
+      window.location.href = "/login";
+      return;
+    }
+    setIsAuth(true);
+    fetchBookmarks();
+  }, []);
+  
+  // Don't render anything until we've checked authentication
+  if (isAuth !== true) {
+    return null;
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
