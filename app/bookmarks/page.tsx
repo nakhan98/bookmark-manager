@@ -13,7 +13,10 @@ export default function BookmarksPage() {
   const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/multi/bookmarks");
+      const token = localStorage.getItem("BOOKMARKS_TOKEN") || "";
+      const res = await fetch("/api/multi/bookmarks", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
       const data = await res.json();
       setBookmarks(data);
     } catch (err) {
@@ -48,9 +51,10 @@ export default function BookmarksPage() {
     
     try {
       const method = formData.id ? "PUT" : "POST";
+      const token = localStorage.getItem("BOOKMARKS_TOKEN") || "";
       const res = await fetch("/api/multi/bookmarks", {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ ...formData, url }),
       });
       
@@ -77,9 +81,10 @@ export default function BookmarksPage() {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this bookmark?")) return;
     try {
+      const token = localStorage.getItem("BOOKMARKS_TOKEN") || "";
       await fetch("/api/multi/bookmarks", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ id }),
       });
       fetchBookmarks();
