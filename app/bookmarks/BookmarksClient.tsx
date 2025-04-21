@@ -3,25 +3,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-// Check authentication before component renders
-const checkAuth = () => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem("BOOKMARKS_TOKEN");
-    if (!token) {
-      window.location.replace("/login");
-      return false;
-    }
-    return true;
-  }
-  return false;
-};
-
-// Immediately check auth before component renders
-const isAuthenticated = typeof window !== 'undefined' && checkAuth();
-
 export default function BookmarksClient() {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState(isAuthenticated);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
@@ -34,14 +18,27 @@ export default function BookmarksClient() {
     try {
       const token = localStorage.getItem("BOOKMARKS_TOKEN");
       if (!token) {
-         window.location.replace("/login");
-         return;
+        router.replace("/login");
+        return;
       }
+      
       const res = await fetch("/api/multi/bookmarks", {
         headers: { "Authorization": `Bearer ${token}` }
       });
+      
+      if (!res.ok) {
+        // If we get a 401 Unauthorized, redirect to login
+        if (res.status === 401) {
+          localStorage.removeItem("BOOKMARKS_TOKEN");
+          router.replace("/login");
+          return;
+        }
+        throw new Error(`Error ${res.status}: ${res.statusText}`);
+      }
+      
       const data = await res.json();
       setBookmarks(data);
+      setIsAuthenticated(true);
     } catch (err) {
       console.error("Failed to fetch bookmarks:", err);
       setError("Failed to load bookmarks. Please try again.");
@@ -50,17 +47,18 @@ export default function BookmarksClient() {
     }
   };
   
-  // Check authentication again and fetch bookmarks
+  // Check authentication on component mount
   useEffect(() => {
-    if (isAuth) {
-      fetchBookmarks();
+    const token = localStorage.getItem("BOOKMARKS_TOKEN");
+    if (!token) {
+      router.replace("/login");
     } else {
-      window.location.replace("/login");
+      fetchBookmarks();
     }
-  }, [isAuth]);
+  }, [router]);
   
   // Don't render anything if not authenticated
-  if (!isAuth) {
+  if (!isAuthenticated && isLoading) {
     return null;
   }
 

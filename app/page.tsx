@@ -1,27 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-// Check authentication before component renders
-const checkAuth = () => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('BOOKMARKS_TOKEN');
-    if (!token) {
-      window.location.replace('/login');
-      return false;
-    }
-    return true;
-  }
-  return false;
-};
-
-// Immediately check auth before component renders
-const isAuthenticated = typeof window !== 'undefined' && checkAuth();
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(isAuthenticated);
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Don't render anything if not authenticated
+  useEffect(() => {
+    // Check authentication on component mount
+    const token = localStorage.getItem('BOOKMARKS_TOKEN');
+    if (!token) {
+      router.replace('/login');
+    } else {
+      setIsAuthenticated(true);
+      setIsLoading(false);
+    }
+  }, [router]);
+  
+  // Show nothing during loading
+  if (isLoading) {
+    return null;
+  }
+  
+  // Only render content if authenticated
   if (!isAuthenticated) {
     return null;
   }
