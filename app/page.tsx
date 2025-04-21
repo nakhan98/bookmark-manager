@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   const [isValid, setIsValid] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const token = localStorage.getItem("BOOKMARKS_TOKEN");
     if (!token) {
       router.push("/login");
