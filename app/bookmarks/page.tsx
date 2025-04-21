@@ -13,7 +13,12 @@ export default function BookmarksPage() {
   const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("BOOKMARKS_TOKEN") || "";
+      const token = localStorage.getItem("BOOKMARKS_TOKEN");
+      if (!token) {
+         setError("Not authenticated. Please log in.");
+         setIsLoading(false);
+         return;
+      }
       const res = await fetch("/api/multi/bookmarks", {
         headers: { "Authorization": `Bearer ${token}` }
       });
