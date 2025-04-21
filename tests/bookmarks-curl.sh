@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ -z "$BOOKMARKS_TOKEN" ]; then
+if [ -z "${BOOKMARKS_TOKEN:-}" ]; then
   echo "BOOKMARKS_TOKEN not set. Attempting to obtain token via login..."
   RESPONSE=$(curl -s -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" -d '{"username": "curltestuser", "password": "new_secret"}')
   echo "Login response: $RESPONSE"
