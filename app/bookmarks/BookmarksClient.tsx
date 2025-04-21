@@ -3,9 +3,25 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+// Check authentication before component renders
+const checkAuth = () => {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem("BOOKMARKS_TOKEN");
+    if (!token) {
+      window.location.replace("/login");
+      return false;
+    }
+    return true;
+  }
+  return false;
+};
+
+// Immediately check auth before component renders
+const isAuthenticated = typeof window !== 'undefined' && checkAuth();
+
 export default function BookmarksClient() {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const [isAuth, setIsAuth] = useState(isAuthenticated);
   const [bookmarks, setBookmarks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
@@ -18,7 +34,7 @@ export default function BookmarksClient() {
     try {
       const token = localStorage.getItem("BOOKMARKS_TOKEN");
       if (!token) {
-         window.location.href = "/login";
+         window.location.replace("/login");
          return;
       }
       const res = await fetch("/api/multi/bookmarks", {
@@ -34,20 +50,17 @@ export default function BookmarksClient() {
     }
   };
   
-  // Check authentication immediately on component mount
+  // Check authentication again and fetch bookmarks
   useEffect(() => {
-    const token = localStorage.getItem("BOOKMARKS_TOKEN");
-    if (!token) {
-      // Use window.location for immediate redirect without React rendering
-      window.location.href = "/login";
-      return;
+    if (isAuth) {
+      fetchBookmarks();
+    } else {
+      window.location.replace("/login");
     }
-    setIsAuth(true);
-    fetchBookmarks();
-  }, []);
+  }, [isAuth]);
   
-  // Don't render anything until we've checked authentication
-  if (isAuth !== true) {
+  // Don't render anything if not authenticated
+  if (!isAuth) {
     return null;
   }
 

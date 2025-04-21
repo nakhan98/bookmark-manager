@@ -2,22 +2,27 @@
 
 import { useEffect, useState } from 'react';
 
-export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  
-  useEffect(() => {
-    // Check for token in localStorage on the client side
+// Check authentication before component renders
+const checkAuth = () => {
+  if (typeof window !== 'undefined') {
     const token = localStorage.getItem('BOOKMARKS_TOKEN');
     if (!token) {
-      // Use window.location for immediate redirect without React rendering
-      window.location.href = '/login';
-      return;
+      window.location.replace('/login');
+      return false;
     }
-    setIsAuthenticated(true);
-  }, []);
+    return true;
+  }
+  return false;
+};
 
-  // Don't render anything until we've checked authentication
-  if (isAuthenticated !== true) {
+// Immediately check auth before component renders
+const isAuthenticated = typeof window !== 'undefined' && checkAuth();
+
+export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(isAuthenticated);
+  
+  // Don't render anything if not authenticated
+  if (!isAuthenticated) {
     return null;
   }
 

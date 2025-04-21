@@ -21,7 +21,14 @@ export function middleware(request: NextRequest) {
     // Use a 307 temporary redirect to ensure the browser follows the redirect immediately
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    return NextResponse.redirect(url, 307);
+    
+    // Add cache control headers to prevent caching of the redirect
+    const response = NextResponse.redirect(url, 307);
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    
+    return response;
   }
   
   return NextResponse.next();
