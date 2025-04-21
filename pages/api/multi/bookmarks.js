@@ -60,7 +60,7 @@ export default async function handler(req, res) {
     await saveUserBookmarks(username, bookmarks);
     res.status(201).json(newBookmark);
     return;
-  } else if (req.method === 'DELETE') {
+  } else if (req.method.toUpperCase() === 'DELETE') {
     const { id } = req.body;
     if (!id) {
       res.status(400).json({ error: 'bookmark id required' });
