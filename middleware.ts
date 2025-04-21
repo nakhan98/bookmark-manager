@@ -3,15 +3,18 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
   // Skip authentication for the following paths:
   if (
+    pathname === '/' || // Allow root path without authentication
     pathname.startsWith('/login') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||
-    pathname.startsWith('/favicon.ico')
+    pathname.includes('favicon.ico')
   ) {
     return NextResponse.next();
   }
+  
   // Protect all other routes
   const token = request.cookies.get("BOOKMARKS_TOKEN")?.value;
   if (!token) {
@@ -19,6 +22,7 @@ export function middleware(request: NextRequest) {
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
+  
   return NextResponse.next();
 }
 
