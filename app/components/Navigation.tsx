@@ -20,7 +20,7 @@ export default function Navigation() {
         <li>
           <Link href="/profile">Profile</Link>
         </li>
-        <li>
+        <li className="ml-auto">
           <button onClick={() => { localStorage.removeItem("BOOKMARKS_TOKEN"); window.location.href = "/login"; }} className="text-white">Logout</button>
         </li>
       </ul>
