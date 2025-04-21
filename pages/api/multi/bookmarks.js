@@ -60,6 +60,25 @@ export default async function handler(req, res) {
     await saveUserBookmarks(username, bookmarks);
     res.status(201).json(newBookmark);
     return;
+  } else if (req.method.toUpperCase() === 'PUT') {
+    const { id, url, title, description } = req.body;
+    if (!id || (!url && !title && description === undefined)) {
+      res.status(400).json({ error: 'bookmark id and at least one of url, title, or description required' });
+      return;
+    }
+    let bookmarks = await getUserBookmarks(username);
+    let bookmark = bookmarks.find(b => b.id === id);
+    if (!bookmark) {
+      res.status(404).json({ error: 'Bookmark not found' });
+      return;
+    }
+    if (url) bookmark.url = url;
+    if (title) bookmark.title = title;
+    if (description !== undefined) bookmark.description = description;
+    bookmark.updatedAt = new Date().toISOString();
+    await saveUserBookmarks(username, bookmarks);
+    res.status(200).json(bookmark);
+    return;
   } else if (req.method.toUpperCase() === 'DELETE') {
     const { id } = req.body;
     if (!id) {
@@ -72,7 +91,7 @@ export default async function handler(req, res) {
     res.status(200).json({ message: 'Bookmark deleted successfully' });
     return;
   } else {
-    res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
+    res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
