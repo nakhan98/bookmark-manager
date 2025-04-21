@@ -1,21 +1,12 @@
-"use client";
-import { useLayoutEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  const router = useRouter();
-  const [hasMounted, setHasMounted] = useState(false);
-  const [isValid, setIsValid] = useState(false);
-  useLayoutEffect(() => {
-    setHasMounted(true);
-    const token = localStorage.getItem("BOOKMARKS_TOKEN");
-    if (!token) {
-      router.push("/login");
-    } else {
-      setIsValid(true);
-    }
-  }, [router]);
-  if (!hasMounted) return null;
-  if (!isValid) return null;
+  const token = cookies().get("BOOKMARKS_TOKEN")?.value;
+  if (!token) {
+    redirect("/login");
+  }
+
   return (
     <div className="p-8">
       <h1 className="text-4xl font-bold mb-4">Welcome to Your Personal Organiser</h1>
