@@ -101,6 +101,12 @@ export default function BookmarksPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
+      {error ? (
+        <div className="p-8">
+          <p className="text-red-600">{error}</p>
+          <a href="/login" className="text-blue-500 underline">Login</a>
+        </div>
+      ) : (
       <header className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
           Bookmark Manager
