@@ -17,15 +17,24 @@ export default function LoginPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      const data = await res.json();
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        console.error("Error parsing JSON:", jsonErr);
+        setError("Login failed: invalid response from server");
+        return;
+      }
       if (!res.ok) {
         setError(data.error || "Login failed");
+      } else if (!data.token) {
+        setError("Login failed: no token received");
       } else {
-        // Assume the token is returned as data.token
         localStorage.setItem("BOOKMARKS_TOKEN", data.token);
         router.push("/");
       }
     } catch (err) {
+      console.error("Login error:", err);
       setError("Login failed: unexpected error");
     }
   };
