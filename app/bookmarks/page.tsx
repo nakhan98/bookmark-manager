@@ -98,7 +98,12 @@ export default function BookmarksPage() {
       setError("Failed to delete bookmark. Please try again.");
     }
   };
-
+  
+  const filteredBookmarks = bookmarks.filter((bookmark) =>
+    bookmark.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    bookmark.url.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       {error ? (
