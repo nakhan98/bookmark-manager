@@ -30,8 +30,6 @@ export default function BookmarksClient() {
   if (isAuth !== true) {
     return null;
   }
-  
-  const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("BOOKMARKS_TOKEN");

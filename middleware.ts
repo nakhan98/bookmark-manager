@@ -18,10 +18,10 @@ export function middleware(request: NextRequest) {
   // Protect all other routes (including root path)
   const token = request.cookies.get("BOOKMARKS_TOKEN")?.value;
   if (!token) {
-    console.log(`No token found, redirecting from ${pathname} to /login`);
+    // Use a 307 temporary redirect to ensure the browser follows the redirect immediately
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 307);
   }
   
   return NextResponse.next();
