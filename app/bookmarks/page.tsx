@@ -9,13 +9,6 @@ export default function BookmarksPage() {
   }
   return <BookmarksClient />;
 }
-    } catch (err) {
-      console.error("Failed to fetch bookmarks:", err);
-      setError("Failed to load bookmarks. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchBookmarks();
