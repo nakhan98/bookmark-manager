@@ -1,8 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function BookmarksClient() {
+  const router = useRouter();
+  const [isAuth, setIsAuth] = useState(true);
+  useEffect(() => {
+    const token = localStorage.getItem("BOOKMARKS_TOKEN");
+    if (!token) {
+      router.push("/login");
+      setIsAuth(false);
+    }
+  }, [router]);
+  if (!isAuth) return null;
   const [bookmarks, setBookmarks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
