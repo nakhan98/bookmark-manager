@@ -26,7 +26,7 @@ export default function LoginPage() {
         return;
       }
       if (!res.ok) {
-        setError(data.error || "Login failed");
+        setError(`Error ${res.status}: ${data.error || "Login failed"}`);
       } else if (!data.token) {
         setError("Login failed: no token received");
       } else {
