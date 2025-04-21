@@ -9,7 +9,6 @@ export default async function BookmarksPage() {
   const token = (await cookies()).get("BOOKMARKS_TOKEN")?.value;
   if (!token) {
     redirect("/login");
-    return null;
   }
   return <BookmarksClient />;
 }

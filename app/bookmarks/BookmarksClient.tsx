@@ -6,6 +6,13 @@ import Image from "next/image";
 export default function BookmarksClient() {
   const router = useRouter();
   const [isAuth, setIsAuth] = useState(true);
+  const [bookmarks, setBookmarks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  
   useEffect(() => {
     const token = localStorage.getItem("BOOKMARKS_TOKEN");
     if (!token) {
@@ -13,13 +20,6 @@ export default function BookmarksClient() {
       setIsAuth(false);
     }
   }, [router]);
-  if (!isAuth) return null;
-  const [bookmarks, setBookmarks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const fetchBookmarks = async () => {
     setIsLoading(true);
