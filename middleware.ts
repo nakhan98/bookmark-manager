@@ -6,7 +6,6 @@ export function middleware(request: NextRequest) {
   
   // Skip authentication for the following paths:
   if (
-    pathname === '/' || // Allow root path without authentication
     pathname.startsWith('/login') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||
@@ -15,7 +14,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // Protect all other routes
+  // Protect all other routes (including root path)
   const token = request.cookies.get("BOOKMARKS_TOKEN")?.value;
   if (!token) {
     const url = request.nextUrl.clone();
