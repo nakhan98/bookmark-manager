@@ -21,7 +21,7 @@ export default function Navigation() {
           <Link href="/profile">Profile</Link>
         </li>
         <li className="ml-auto">
-          <button onClick={() => { localStorage.removeItem("BOOKMARKS_TOKEN"); window.location.href = "/login"; }} className="text-white">Logout</button>
+          <button onClick={() => { localStorage.removeItem("BOOKMARKS_TOKEN"); window.location.href = "/login"; }} className="text-white cursor-pointer">Logout</button>
         </li>
       </ul>
     </nav>
