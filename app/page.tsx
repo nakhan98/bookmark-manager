@@ -1,21 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   
   useEffect(() => {
     // Check for token in localStorage on the client side
     const token = localStorage.getItem('BOOKMARKS_TOKEN');
     if (!token) {
-      router.replace('/login');
-    } else {
-      setIsAuthenticated(true);
+      // Use window.location for immediate redirect without React rendering
+      window.location.href = '/login';
+      return;
     }
-  }, [router]);
+    setIsAuthenticated(true);
+  }, []);
 
   // Don't render anything until we've checked authentication
   if (isAuthenticated !== true) {
