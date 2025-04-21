@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if [ -z "$BOOKMARKS_TOKEN" ]; then
   echo "BOOKMARKS_TOKEN not set. Attempting to obtain token via login..."
