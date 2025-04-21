@@ -13,7 +13,7 @@ export default function BookmarksPage() {
   const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/bookmarks");
+      const res = await fetch("/api/multi/bookmarks");
       const data = await res.json();
       setBookmarks(data);
     } catch (err) {
@@ -48,7 +48,7 @@ export default function BookmarksPage() {
     
     try {
       const method = formData.id ? "PUT" : "POST";
-      const res = await fetch("/api/bookmarks", {
+      const res = await fetch("/api/multi/bookmarks", {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, url }),
@@ -77,7 +77,7 @@ export default function BookmarksPage() {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this bookmark?")) return;
     try {
-      await fetch("/api/bookmarks", {
+      await fetch("/api/multi/bookmarks", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
