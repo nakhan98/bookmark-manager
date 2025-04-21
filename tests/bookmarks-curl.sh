@@ -31,6 +31,14 @@ echo "Testing GET bookmarks endpoint after POST..."
 curl -s -X GET http://localhost:3000/api/multi/bookmarks -H "Authorization: Bearer $BOOKMARKS_TOKEN"
 echo -e "\n"
 
+echo "Testing PUT bookmarks endpoint..."
+PUT_RESPONSE=$(curl -s -X PUT http://localhost:3000/api/multi/bookmarks \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $BOOKMARKS_TOKEN" \
+  -d "{\"id\": \"$BOOKMARK_ID\", \"title\": \"Updated Bookmark Title\"}")
+echo "PUT response: $PUT_RESPONSE"
+echo -e "\n"
+
 echo "Testing DELETE bookmarks endpoint..."
 curl -s -X DELETE http://localhost:3000/api/multi/bookmarks \
   -H "Content-Type: application/json" \
