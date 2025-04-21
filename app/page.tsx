@@ -3,15 +3,17 @@ import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
-  const [isValid, setIsValid] = useState(false);
-  useLayoutEffect(() => {
-    const token = localStorage.getItem("BOOKMARKS_TOKEN");
-    if (!token) {
-      router.push("/login");
-    } else {
-      setIsValid(true);
+  const [isValid, setIsValid] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Boolean(localStorage.getItem("BOOKMARKS_TOKEN"));
     }
-  }, []);
+    return false;
+  });
+  useLayoutEffect(() => {
+    if (!isValid) {
+      router.push("/login");
+    }
+  }, [isValid, router]);
   if (!isValid) return null;
   return (
     <div className="p-8">
