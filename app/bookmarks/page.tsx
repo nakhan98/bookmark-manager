@@ -1,28 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import BookmarksClient from "./BookmarksClient";
 
 export default function BookmarksPage() {
-  const [bookmarks, setBookmarks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [formData, setFormData] = useState({ id: null, title: "", url: "", note: "" });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-
-  const fetchBookmarks = async () => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem("BOOKMARKS_TOKEN");
-      if (!token) {
-         window.location.href = "/login";
-         return;
-      }
-      const res = await fetch("/api/multi/bookmarks", {
-        headers: { "Authorization": `Bearer ${token}` }
-      });
-      const data = await res.json();
-      setBookmarks(data);
+  const token = cookies().get("BOOKMARKS_TOKEN")?.value;
+  if (!token) {
+    redirect("/login");
+  }
+  return <BookmarksClient />;
+}
     } catch (err) {
       console.error("Failed to fetch bookmarks:", err);
       setError("Failed to load bookmarks. Please try again.");
