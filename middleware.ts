@@ -52,17 +52,5 @@ export function middleware(request: NextRequest) {
 
 // Make sure the matcher includes all paths
 export const config = {
-  matcher: [
-    '/',
-    '/bookmarks',
-    '/bookmarks/:path*',
-    '/notes',
-    '/notes/:path*',
-    '/calendar',
-    '/calendar/:path*',
-    '/profile',
-    '/profile/:path*',
-    '/api/:path*',
-    '/((?!_next/static|_next/image|favicon.ico|login).*)' // Catch all other routes except excluded ones
-  ],
+  matcher: [ '/((?!_next|login|favicon.ico).*)' ],
 };
