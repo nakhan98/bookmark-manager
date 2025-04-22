@@ -28,6 +28,8 @@ export function middleware(request: NextRequest) {
   if (pathname === '/' || pathname.startsWith('/bookmarks') || 
       pathname.startsWith('/notes') || pathname.startsWith('/calendar') || 
       pathname.startsWith('/profile')) {
+    // This block was missing its closing bracket and content
+  }
   
   // Protect all other routes (including API routes)
   const token = request.cookies.get("BOOKMARKS_TOKEN")?.value;
