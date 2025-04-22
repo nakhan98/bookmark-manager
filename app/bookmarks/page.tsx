@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import BookmarksClient from "./BookmarksClient";
 import { requireAuth } from '../../lib/clientAuth';
@@ -9,7 +9,7 @@ export default function BookmarksPage() {
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState(false);
   
-  useEffect(() => {
+  useLayoutEffect(() => {
     // This will redirect if not authenticated
     if (requireAuth()) {
       setIsAuthorized(true);
