@@ -19,17 +19,18 @@ export const metadata: Metadata = {
   description: "A modern app to manage your bookmarks",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = (await cookies()).get('BOOKMARKS_TOKEN');
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {cookies().get('BOOKMARKS_TOKEN') ? <ConditionalNavigation /> : null}
+        {token ? <ConditionalNavigation /> : null}
         {children}
       </body>
     </html>
