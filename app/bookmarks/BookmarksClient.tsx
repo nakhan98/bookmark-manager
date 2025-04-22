@@ -75,10 +75,10 @@ export default function BookmarksClient() {
     
     try {
       const method = formData.id ? "PUT" : "POST";
-      const token = localStorage.getItem("BOOKMARKS_TOKEN") || "";
       const res = await fetch("/api/multi/bookmarks", {
         method,
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ ...formData, url }),
       });
       
@@ -105,10 +105,10 @@ export default function BookmarksClient() {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this bookmark?")) return;
     try {
-      const token = localStorage.getItem("BOOKMARKS_TOKEN") || "";
       await fetch("/api/multi/bookmarks", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ id }),
       });
       fetchBookmarks();
