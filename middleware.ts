@@ -24,14 +24,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // Special handling for root path and other page routes
-  if (pathname === '/' || pathname.startsWith('/bookmarks') || 
-      pathname.startsWith('/notes') || pathname.startsWith('/calendar') || 
-      pathname.startsWith('/profile')) {
-    // This block was missing its closing bracket and content
-  }
-  
-  // Protect all other routes (including API routes)
+  // Check for authentication token
   const token = request.cookies.get("BOOKMARKS_TOKEN")?.value;
   if (!token) {
     // If it's an API request, return 401 Unauthorized

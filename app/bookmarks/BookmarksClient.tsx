@@ -47,19 +47,18 @@ export default function BookmarksClient() {
     }
   };
   
-  // Check authentication on component mount
+  // Fetch bookmarks on component mount
   useEffect(() => {
-    const token = localStorage.getItem("BOOKMARKS_TOKEN");
-    if (!token) {
-      router.replace("/login");
-    } else {
-      fetchBookmarks();
-    }
-  }, [router]);
+    fetchBookmarks();
+  }, []);
   
-  // Don't render anything until we've confirmed authentication status
-  if (isLoading || !isAuthenticated) {
-    return null;
+  // Show loading state while fetching data
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   const handleInputChange = (e) => {

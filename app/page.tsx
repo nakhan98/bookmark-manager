@@ -1,32 +1,13 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // Server-side authentication check
+  const cookieStore = cookies();
+  const token = cookieStore.get('BOOKMARKS_TOKEN');
   
-  useEffect(() => {
-    // Check authentication on component mount
-    const token = localStorage.getItem('BOOKMARKS_TOKEN');
-    if (!token) {
-      router.replace('/login');
-    } else {
-      setIsAuthenticated(true);
-      setIsLoading(false);
-    }
-  }, [router]);
-  
-  // Show nothing during loading
-  if (isLoading) {
-    return null;
-  }
-  
-  // Only render content if authenticated
-  if (!isAuthenticated) {
-    return null;
+  if (!token) {
+    redirect('/login');
   }
 
   return (
