@@ -43,17 +43,9 @@ export function middleware(request: NextRequest) {
       );
     }
     
-    // For non-API routes, redirect to login
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    
-    // Add cache control headers to prevent caching of the redirect
-    const response = NextResponse.redirect(url, 307);
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    response.headers.set('Pragma', 'no-cache');
-    response.headers.set('Expires', '0');
-    
-    return response;
+    // For non-API routes, redirect to login with a rewrite instead of redirect
+    // This prevents the flash of content before redirect
+    return NextResponse.rewrite(new URL('/login', request.url));
   }
   
   return NextResponse.next();
