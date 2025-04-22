@@ -57,8 +57,8 @@ export default function BookmarksClient() {
     }
   }, [router]);
   
-  // Don't render anything if not authenticated
-  if (!isAuthenticated && isLoading) {
+  // Don't render anything until we've confirmed authentication status
+  if (isLoading || !isAuthenticated) {
     return null;
   }
 

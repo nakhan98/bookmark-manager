@@ -24,6 +24,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
+  // Special handling for root path and other page routes
+  if (pathname === '/' || pathname.startsWith('/bookmarks') || 
+      pathname.startsWith('/notes') || pathname.startsWith('/calendar') || 
+      pathname.startsWith('/profile')) {
+  
   // Protect all other routes (including API routes)
   const token = request.cookies.get("BOOKMARKS_TOKEN")?.value;
   if (!token) {
@@ -61,5 +66,17 @@ export function middleware(request: NextRequest) {
 
 // Make sure the matcher includes all paths
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/',
+    '/bookmarks',
+    '/bookmarks/:path*',
+    '/notes',
+    '/notes/:path*',
+    '/calendar',
+    '/calendar/:path*',
+    '/profile',
+    '/profile/:path*',
+    '/api/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|login).*)' // Catch all other routes except excluded ones
+  ],
 };
