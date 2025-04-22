@@ -43,9 +43,8 @@ export function middleware(request: NextRequest) {
       );
     }
     
-    // For non-API routes, redirect to login with a rewrite instead of redirect
-    // This prevents the flash of content before redirect
-    return NextResponse.rewrite(new URL('/login', request.url));
+    // For non-API routes, immediately redirect to login to prevent any flash of protected content.
+    return NextResponse.redirect(new URL('/login', request.url));
   }
   
   return NextResponse.next();
