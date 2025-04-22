@@ -16,14 +16,8 @@ export default function BookmarksClient() {
   const fetchBookmarks = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("BOOKMARKS_TOKEN");
-      if (!token) {
-        router.replace("/login");
-        return;
-      }
-      
       const res = await fetch("/api/multi/bookmarks", {
-        headers: { "Authorization": `Bearer ${token}` }
+        credentials: "include"
       });
       
       if (!res.ok) {
