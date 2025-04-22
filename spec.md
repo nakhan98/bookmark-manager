@@ -55,6 +55,9 @@ interface User {
 - Account recovery flow
 - Session management with JWT tokens
 - Rate limiting on login attempts
+- Strict access control: unauthenticated users should only see the login screen
+- Server-side and client-side protection for all protected resources
+- No flashing of protected content before authentication checks complete
 - Future: Google SSO integration
 
 ### Navigation & UI
@@ -308,6 +311,9 @@ The application will expose a comprehensive REST API to support both web and fut
 - Application will be behind an nginx reverse proxy that handles SSL termination
 - All traffic to and from the web application will be over HTTPS when deployed to production (this will be handled separately and is not a concern for application development)
 - Proper authentication and authorization checks on all routes
+- Complete protection of all resources from unauthenticated access
+- Server-side middleware to prevent access to protected routes
+- Client-side guards to prevent rendering of protected content
 - Input validation and sanitization
 - Protection against common vulnerabilities (XSS, CSRF, etc.)
 

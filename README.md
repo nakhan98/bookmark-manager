@@ -4,7 +4,7 @@ A comprehensive multi-user personal organiser web application built with Next.js
 
 ## Features
 
-- Multi-user authentication system
+- Multi-user authentication system with strict access control
 - Bookmark management with folders, tags, and search functionality
 - Notes with rich text/markdown support
 - Calendar with event scheduling and notifications
