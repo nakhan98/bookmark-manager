@@ -56,6 +56,7 @@ interface User {
 - Session management with JWT tokens
 - Rate limiting on login attempts
 - Strict access control: unauthenticated users should only see the login screen
+- All authentication checks for protected resources are now performed server-side using `HttpOnly` cookies. Client-side localStorage token checks have been removed for improved security.
 - Server-side and client-side protection for all protected resources
 - No flashing of protected content before authentication checks complete
 - Future: Google SSO integration
