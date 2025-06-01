@@ -32,9 +32,9 @@ A comprehensive multi-user personal organiser web application built with Next.js
 
 ### Prerequisites
 
-- Node.js (v18+)
-- npm or yarn
-- Docker/Podman (optional)
+- Node.js (v20+) and npm (required for app and Docker)
+- Docker/Podman (optional, for containerized development)
+- Python 3 (optional, for user management script)
 
 ### Environment Variables
 
