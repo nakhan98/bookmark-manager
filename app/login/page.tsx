@@ -31,7 +31,6 @@ export default function LoginPage() {
         setError("Login failed: no token received");
       } else {
         localStorage.setItem("BOOKMARKS_TOKEN", data.token);
-        document.cookie = `BOOKMARKS_TOKEN=${data.token}; path=/;`;
         router.push("/");
       }
     } catch (err) {

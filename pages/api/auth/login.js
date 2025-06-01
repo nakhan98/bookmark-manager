@@ -51,5 +51,7 @@ export default async function handler(req, res) {
   }
   
   const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '24h' });
+  // Set cookie for 24 hours
+  res.setHeader('Set-Cookie', `BOOKMARKS_TOKEN=${token}; Path=/; Max-Age=86400; HttpOnly; SameSite=Lax`);
   res.status(200).json({ token });
 }
