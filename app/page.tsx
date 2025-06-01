@@ -1,23 +1,10 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { requireAuth } from '../lib/clientAuth';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  
-  useEffect(() => {
-    // This will redirect if not authenticated
-    if (requireAuth()) {
-      setIsAuthorized(true);
-    }
-  }, [router]);
-  
-  // Don't render anything until we've confirmed authorization
-  if (!isAuthorized) {
-    return null;
+  const token = cookies().get('BOOKMARKS_TOKEN');
+  if (!token) {
+    redirect('/login');
   }
 
   return (
