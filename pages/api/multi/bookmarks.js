@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import jwt from 'jsonwebtoken';
+import cookie from 'cookie';
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
 async function getUserBookmarks(username) {
@@ -22,12 +23,18 @@ async function saveUserBookmarks(username, bookmarks) {
 
 export default async function handler(req, res) {
   // Authenticate user manually using JWT
+  let token;
   const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    res.status(401).json({ error: 'Authorization header missing' });
+  if (authHeader) {
+    token = authHeader.split(' ')[1];
+  } else if (req.headers.cookie) {
+    const cookies = cookie.parse(req.headers.cookie);
+    token = cookies.BOOKMARKS_TOKEN;
+  }
+  if (!token) {
+    res.status(401).json({ error: 'Authorization header or cookie missing' });
     return;
   }
-  const token = authHeader.split(' ')[1];
   let decoded;
   try {
     decoded = jwt.verify(token, JWT_SECRET);
