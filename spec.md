@@ -57,7 +57,8 @@ interface User {
 - Rate limiting on login attempts
 - Strict access control: unauthenticated users should only see the login screen
 - All authentication checks for protected resources are now performed server-side using `HttpOnly` cookies. Client-side localStorage token checks have been removed for improved security.
-- Server-side and client-side protection for all protected resources
+- Server-side protection for all protected resources: All authentication checks are performed on the server using `HttpOnly` cookies, ensuring that unauthenticated users cannot access or render protected content.
+- Client-side protection: Since authentication is enforced server-side, protected content is never sent to the client unless the user is authenticated. No client-side JavaScript checks are needed, and protected content is not flashed or exposed before authentication is verified.
 - No flashing of protected content before authentication checks complete
 - Future: Google SSO integration
 
