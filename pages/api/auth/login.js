@@ -41,6 +41,7 @@ export default async function handler(req, res) {
   const hashedInput = hashPassword(password, userData.last_modified_date);
   if (hashedInput !== userData.password) {
     res.status(401).json({ error: 'Invalid credentials' });
+    // Add a log here too, AI!
     return;
   }
   
