@@ -48,3 +48,10 @@ data/
 # Vim
 *~
 .*.sw*
+
+
+# Claude
+.claude/
+
+# tmp files
+tmp/
