@@ -3,36 +3,23 @@ import json
 from datetime import datetime, timezone
 import argparse
 import sys
+import os
 
+AUTH_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'auth.json')
 
-def generate_user_data(
-    username: str,
+def generate_user_entry(
     password: str,
     email: str,
     is_admin: bool = False,
-    salt: str = "static_salt",
+    salt: str = "static_salt"
 ) -> dict:
-    """
-    Generates a dictionary with user data including a hashed password, the current last modified date,
-    and an optional isAdmin flag.
-
-    :param username: The username of the user.
-    :param password: The password to be hashed.
-    :param email: The email address of the user.
-    :param is_admin: Whether the user is an admin (default: False).
-    :param salt: A static salt value for hashing (default is 'static_salt').
-    :return: A dict with user data.
-    """
-    # Match JS's new Date().toISOString() format (with milliseconds)
     last_modified_date: str = (
         datetime.now(timezone.utc)
         .isoformat(timespec="milliseconds")
         .replace("+00:00", "Z")
     )
-
     to_hash: str = salt + password + last_modified_date
     hash_hex: str = hashlib.sha1(to_hash.encode("utf-8")).hexdigest()
-
     user_entry = {
         "password": hash_hex,
         "email": email,
@@ -40,26 +27,38 @@ def generate_user_data(
     }
     if is_admin:
         user_entry["isAdmin"] = True
-
-    return {username: user_entry}
-
+    return user_entry
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate user JSON for auth.json")
+    parser = argparse.ArgumentParser(description="Add or update a user in data/auth.json")
     parser.add_argument("username", help="Username for the user")
     parser.add_argument("password", help="Password for the user")
     parser.add_argument("email", help="Email address for the user")
     parser.add_argument("--admin", action="store_true", help="Set this user as admin")
     args = parser.parse_args()
 
-    user_data = generate_user_data(
-        username=args.username,
+    # Load existing users
+    if os.path.exists(AUTH_PATH):
+        with open(AUTH_PATH, "r", encoding="utf-8") as f:
+            try:
+                auth_data = json.load(f)
+            except Exception:
+                auth_data = {}
+    else:
+        os.makedirs(os.path.dirname(AUTH_PATH), exist_ok=True)
+        auth_data = {}
+
+    # Add or update user
+    auth_data[args.username] = generate_user_entry(
         password=args.password,
         email=args.email,
-        is_admin=args.admin,
+        is_admin=args.admin
     )
-    print(json.dumps(user_data, indent=2))
 
+    # Write back to file
+    with open(AUTH_PATH, "w", encoding="utf-8") as f:
+        json.dump(auth_data, f, indent=2)
+    print(f"User '{args.username}' added/updated in {AUTH_PATH}")
 
 if __name__ == "__main__":
     main()
