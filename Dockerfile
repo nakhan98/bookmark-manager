@@ -16,5 +16,8 @@ COPY . .
 # Expose the port Next.js uses
 EXPOSE 3000
 
+# Disable Turbopack for classic Webpack dev server (shows backend logs)
+ENV NEXT_PRIVATE_TURBOPACK=0
+
 # Run Next.js in development mode
 CMD ["npm", "run", "dev"]
