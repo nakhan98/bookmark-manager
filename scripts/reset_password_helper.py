@@ -1,6 +1,6 @@
 import hashlib
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 def generate_user_data(
     username: str,
@@ -18,7 +18,7 @@ def generate_user_data(
     :return: A JSON string with user data.
     """
     # Match JS's new Date().toISOString() format (with milliseconds)
-    last_modified_date: str = datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
+    last_modified_date: str = datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
     to_hash: str = salt + password + last_modified_date
     hash_hex: str = hashlib.sha1(to_hash.encode('utf-8')).hexdigest()
