@@ -29,6 +29,7 @@ export default async function handler(req, res) {
   const userData = authData[username];
   if (!userData) {
     res.status(401).json({ error: 'Invalid credentials' });
+    // Add, a log here, AI!
     return;
   }
 
