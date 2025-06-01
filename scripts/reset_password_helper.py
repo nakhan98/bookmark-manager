@@ -17,8 +17,8 @@ def generate_user_data(
     :param salt: A static salt value for hashing (default is 'static_salt').
     :return: A JSON string with user data.
     """
-    # Generate the current date and time in the desired format
-    last_modified_date: str = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    # Match JS's new Date().toISOString() format (with milliseconds)
+    last_modified_date: str = datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
 
     to_hash: str = salt + password + last_modified_date
     hash_hex: str = hashlib.sha1(to_hash.encode('utf-8')).hexdigest()
