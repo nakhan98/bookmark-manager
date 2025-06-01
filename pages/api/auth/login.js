@@ -28,8 +28,13 @@ export default async function handler(req, res) {
   const authData = await readAuth();
   const userData = authData[username];
   if (!userData) {
+    console.log({
+      event: 'login_failed',
+      reason: 'user_not_found',
+      username,
+      timestamp: new Date().toISOString()
+    });
     res.status(401).json({ error: 'Invalid credentials' });
-    // Add, a log here, AI!
     return;
   }
 
