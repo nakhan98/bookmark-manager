@@ -23,6 +23,13 @@ export default async function handler(req, res) {
     return;
   }
   
+  // Log email and last_modified_date for debugging
+  console.log('Login attempt:', {
+    username,
+    email: userData.email,
+    last_modified_date: userData.last_modified_date
+  });
+
   const hashedInput = hashPassword(password, userData.last_modified_date);
   if (hashedInput !== userData.password) {
     res.status(401).json({ error: 'Invalid credentials' });
