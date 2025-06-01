@@ -5,13 +5,11 @@ import argparse
 import sys
 import os
 
-AUTH_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'auth.json')
+AUTH_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "auth.json")
+
 
 def generate_user_entry(
-    password: str,
-    email: str,
-    is_admin: bool = False,
-    salt: str = "static_salt"
+    password: str, email: str, is_admin: bool = False, salt: str = "static_salt"
 ) -> dict:
     last_modified_date: str = (
         datetime.now(timezone.utc)
@@ -29,8 +27,11 @@ def generate_user_entry(
         user_entry["isAdmin"] = True
     return user_entry
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Add or update a user in data/auth.json")
+    parser = argparse.ArgumentParser(
+        description="Add or update a user in data/auth.json"
+    )
     parser.add_argument("username", help="Username for the user")
     parser.add_argument("password", help="Password for the user")
     parser.add_argument("email", help="Email address for the user")
@@ -50,15 +51,14 @@ def main():
 
     # Add or update user
     auth_data[args.username] = generate_user_entry(
-        password=args.password,
-        email=args.email,
-        is_admin=args.admin
+        password=args.password, email=args.email, is_admin=args.admin
     )
 
     # Write back to file
     with open(AUTH_PATH, "w", encoding="utf-8") as f:
         json.dump(auth_data, f, indent=2)
     print(f"User '{args.username}' added/updated in {AUTH_PATH}")
+
 
 if __name__ == "__main__":
     main()
