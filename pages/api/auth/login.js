@@ -5,6 +5,17 @@ import fs from 'fs';
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
 export default async function handler(req, res) {
+  // Log the incoming request method and body for debugging
+  fs.appendFileSync(
+    '/tmp/login_debug.log',
+    JSON.stringify({
+      event: 'function_start',
+      method: req.method,
+      body: req.body,
+      timestamp: new Date().toISOString()
+    }) + '\n'
+  );
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     res.status(405).json({ error: 'Method Not Allowed' });
