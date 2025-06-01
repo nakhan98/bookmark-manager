@@ -5,7 +5,6 @@ import fs from 'fs';
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
 export default async function handler(req, res) {
-  // Remove the writes to login_debug.log, keep console.logs. AI!
   const logEntry = {
     event: 'function_start',
     method: req.method,
@@ -13,10 +12,6 @@ export default async function handler(req, res) {
     timestamp: new Date().toISOString()
   };
   console.log(logEntry);
-  fs.appendFileSync(
-    '/tmp/login_debug.log',
-    JSON.stringify(logEntry) + '\n'
-  );
 
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -36,17 +31,6 @@ export default async function handler(req, res) {
     res.status(401).json({ error: 'Invalid credentials' });
     return;
   }
-  
-  // Log email and last_modified_date for debugging
-  fs.appendFileSync(
-    '/tmp/login_debug.log',
-    JSON.stringify({
-      username,
-      email: userData.email,
-      last_modified_date: userData.last_modified_date,
-      timestamp: new Date().toISOString()
-    }) + '\n'
-  );
 
   const hashedInput = hashPassword(password, userData.last_modified_date);
   if (hashedInput !== userData.password) {
