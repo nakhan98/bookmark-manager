@@ -1,5 +1,7 @@
 import { readAuth, writeAuth, hashPassword } from '../../../lib/auth';
 
+import JWT_SECRET from '../../../lib/jwtSecret';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);

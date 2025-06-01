@@ -2,7 +2,7 @@ import { readAuth, hashPassword } from '../../../lib/auth';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
+import JWT_SECRET from '../../../lib/jwtSecret';
 
 export default async function handler(req, res) {
   const logEntry = {
