@@ -29,5 +29,5 @@ def generate_user_data(username, password, email, salt='static_salt'):
     return json.dumps(user_data, indent=2)
 
 # Example usage:
-user_json = generate_user_data('testuser', 'newpassword123', 'testuser@example.com')
-print(user_json)
+# user_json = generate_user_data('testuser', 'newpassword123', 'testuser@example.com')
+# print(user_json)
