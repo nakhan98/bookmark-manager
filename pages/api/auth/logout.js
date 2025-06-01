@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  // For stateless JWT, logout is typically handled client-side.
-  // Optionally, you could perform server-side cleanup if needed.
+  // Clear the cookie by setting it to expire immediately
+  res.setHeader('Set-Cookie', 'BOOKMARKS_TOKEN=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
   res.status(200).json({ message: 'User logged out successfully' });
 }
