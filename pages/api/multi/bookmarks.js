@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-import cookie from 'cookie';
+import * as cookie from 'cookie';
 console.log('DEBUG: cookie import:', cookie);
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
