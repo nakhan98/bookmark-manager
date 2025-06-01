@@ -2,7 +2,7 @@ CONTAINER_RUNTIME ?= podman
 HTPASSWD_USER ?= admin
 
 docker_build:
-	$(CONTAINER_RUNTIME) build -t aider-bookmark-manager .
+	$(CONTAINER_RUNTIME) build -f Dockerfile.dev -t aider-bookmark-manager .
 
 docker_run:
 	-$(CONTAINER_RUNTIME) rm -f adm
