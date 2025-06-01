@@ -318,6 +318,21 @@ The application will expose a comprehensive REST API to support both web and fut
 - Client-side guards to prevent rendering of protected content
 - Input validation and sanitization
 - Protection against common vulnerabilities (XSS, CSRF, etc.)
+- **Environment variable enforcement:** To guarantee the application never starts in an insecure state, implement a custom server script that checks for required environment variables (such as `JWT_SECRET`) before starting Next.js. The script should exit immediately with an error if any are missing. This prevents the app from running with insecure defaults, even before any page or API route is loaded.
+
+  Example (Node.js):
+  ```js
+  // server.js
+  if (!process.env.JWT_SECRET) {
+    console.error('FATAL: JWT_SECRET environment variable is not set.');
+    process.exit(1);
+  }
+  require('next')({ dev: process.env.NODE_ENV !== 'production' })
+    .prepare()
+    .then(() => {
+      // ...start your custom server here
+    });
+  ```
 
 ### Performance
 - Lazy loading of features/components
