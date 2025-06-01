@@ -1,5 +1,6 @@
 import { readAuth, hashPassword } from '../../../lib/auth';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
@@ -24,12 +25,15 @@ export default async function handler(req, res) {
   }
   
   // Log email and last_modified_date for debugging
-  console.error('Login attempt:', {
-    username,
-    email: userData.email,
-    last_modified_date: userData.last_modified_date
-  });
-  process.stdout.write(''); // Force flush of logs
+  fs.appendFileSync(
+    '/tmp/login_debug.log',
+    JSON.stringify({
+      username,
+      email: userData.email,
+      last_modified_date: userData.last_modified_date,
+      timestamp: new Date().toISOString()
+    }) + '\n'
+  );
 
   const hashedInput = hashPassword(password, userData.last_modified_date);
   if (hashedInput !== userData.password) {
