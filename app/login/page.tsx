@@ -31,7 +31,7 @@ export default function LoginPage() {
         setError("Login failed: no token received");
       } else {
         // No need to store token in localStorage; cookie is set by server
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (err) {
       console.error("Login error:", err);
