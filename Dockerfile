@@ -20,4 +20,4 @@ EXPOSE 3000
 ENV NEXT_PRIVATE_TURBOPACK=0
 
 # Run Next.js in development mode
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "NEXT_PRIVATE_TURBOPACK=0 npm run dev"]
