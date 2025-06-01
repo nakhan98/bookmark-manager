@@ -5,16 +5,17 @@ import fs from 'fs';
 const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
 export default async function handler(req, res) {
-  // Log to console as well, AI!
   // Log the incoming request method and body for debugging
+  const logEntry = {
+    event: 'function_start',
+    method: req.method,
+    body: req.body,
+    timestamp: new Date().toISOString()
+  };
+  console.log(logEntry);
   fs.appendFileSync(
     '/tmp/login_debug.log',
-    JSON.stringify({
-      event: 'function_start',
-      method: req.method,
-      body: req.body,
-      timestamp: new Date().toISOString()
-    }) + '\n'
+    JSON.stringify(logEntry) + '\n'
   );
 
   if (req.method !== 'POST') {
