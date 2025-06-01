@@ -13,9 +13,20 @@ A comprehensive multi-user personal organiser web application built with Next.js
 - Complete RESTful API for all features
 - Responsive design for both mobile and desktop experiences
 
+### Admin-Only Endpoints
+
+- The `/api/auth/register` and `/api/auth/reset-password` endpoints are protected and require an admin JWT token.
+- Only users with `"isAdmin": true` in `data/auth.json` can register new users or reset passwords via the API.
+- To obtain an admin JWT, log in as an admin and use the returned token in the `Authorization: Bearer <token>` header.
+
 ## Project Structure
 
-TODO
+- `app/` — Next.js app directory (pages, layouts, components)
+- `pages/api/` — REST API endpoints (authentication, bookmarks, etc.)
+- `lib/` — Shared server-side utilities (auth, JWT, etc.)
+- `data/` — JSON data storage (user accounts, bookmarks, etc.)
+- `scripts/` — Utility scripts (user management, password reset helper)
+- `tests/` — Automated tests (unit, integration, UI)
 
 ## Development
 
@@ -24,6 +35,15 @@ TODO
 - Node.js (v18+)
 - npm or yarn
 - Docker/Podman (optional)
+
+### Environment Variables
+
+- `JWT_SECRET` (required): Secret key for signing JWT tokens.  
+  **You must set this in your environment before running the app.**
+  Example for local development:  
+  ```sh
+  export JWT_SECRET="your-very-strong-secret"
+  ```
 
 ### Local Development
 
@@ -85,6 +105,34 @@ Test categories:
 ## License
 
 MIT
+
+## User Management Script
+
+You can add or update users (including admin users) directly in `data/auth.json` using the CLI script:
+
+```sh
+python scripts/reset_password_helper.py <username> <password> <email> [--admin]
+```
+
+- Use `--admin` to grant admin privileges.
+- The script will create or update the user in `data/auth.json`.
+
+## Example: Registering a User via API
+
+1. Log in as an admin to get a JWT token:
+   ```sh
+   TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"username":"adminuser","password":"adminpassword"}' | jq -r .token)
+   ```
+
+2. Register a new user:
+   ```sh
+   curl -X POST http://localhost:3000/api/auth/register \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer $TOKEN" \
+     -d '{"username":"newuser","email":"newuser@example.com","password":"newpassword"}'
+   ```
 
 ## Development Tools
 
