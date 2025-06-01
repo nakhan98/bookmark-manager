@@ -24,11 +24,12 @@ export default async function handler(req, res) {
   }
   
   // Log email and last_modified_date for debugging
-  console.log('Login attempt:', {
+  console.error('Login attempt:', {
     username,
     email: userData.email,
     last_modified_date: userData.last_modified_date
   });
+  process.stdout.write(''); // Force flush of logs
 
   const hashedInput = hashPassword(password, userData.last_modified_date);
   if (hashedInput !== userData.password) {
