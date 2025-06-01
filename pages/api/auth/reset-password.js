@@ -1,4 +1,5 @@
 import { readAuth, writeAuth, hashPassword } from '../../../lib/auth';
+import { requireAdmin } from '../../../lib/requireAdmin';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -6,6 +7,9 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
+
+  const adminUser = await requireAdmin(req, res);
+  if (!adminUser) return;
   
   const { username, oldPassword, newPassword } = req.body;
   if (!username || !oldPassword || !newPassword) {
