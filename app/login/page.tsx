@@ -30,7 +30,7 @@ export default function LoginPage() {
       } else if (!data.token) {
         setError("Login failed: no token received");
       } else {
-        localStorage.setItem("BOOKMARKS_TOKEN", data.token);
+        // No need to store token in localStorage; cookie is set by server
         router.push("/");
       }
     } catch (err) {
